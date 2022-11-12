@@ -11,7 +11,16 @@ def index():
 
 @app.route('/pictures')
 def pictures():
-        return {'nb_ppl' : nb_ppl, 'nb_man' : nb_man, 'nb_women' : nb_women, 'average_age_man' : average_age_man, 'average_age_women' : average_age_women, 'average_age' : average_age, 'ages_man' : ages_man, 'ages_women' : ages_women, 'ages' : ages}
+        return {'nb_ppl' : nb_ppl, 
+                'nb_man' : nb_man, 
+                'nb_women' : nb_women, 
+                'average_age_man' : average_age_man, 
+                'average_age_women' : average_age_women, 
+                'average_age' : average_age, 
+                'ages_man' : ages_man, 
+                'ages_women' : ages_women, 
+                'ages' : ages,
+                'emotions' : emotions}
 
 if __name__ == "__main__":
     
@@ -20,7 +29,9 @@ if __name__ == "__main__":
     nb_ppl = 0
     ages_man = []
     ages_women = []
+    emotions = []
     #Indiquer tous les fichiers json utilisés
+    #Attention, peut demander le chemin absolu en fonction des machines [r"pathcomplet"]
     name_files = [r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture1.json", r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture2.json", r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture3.json"]
 
     for i in range(len(name_files)):
@@ -31,9 +42,11 @@ if __name__ == "__main__":
             if face['gender'] == 'male':
                 nb_man += 1
                 ages_man.append(int(face['age']))
+                emotions.append(face['emotions'])
             else:
                 nb_women += 1
                 ages_women.append(int(face['age']))
+                emotions.append(face['emotions'])
 
         nb_ppl += data['response']['face_count']
 

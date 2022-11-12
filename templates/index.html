@@ -14,7 +14,7 @@
             padding-bottom: 15px;
             padding-left: 15px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
         }
         h1{
             font-family: sans-serif;
@@ -30,12 +30,16 @@
             <canvas id="graph1"></canvas>
         </div>
         <div>
-            <h1>Différentes moyennes d'âge</h1>
-            <canvas id="graph2" style="width:600Px;height:800px;"></canvas>
-        </div>
-        <div>
             <h1>Tranches d'âges</h1>
             <canvas id="graph3"></canvas>
+        </div>
+        <div>
+            <h1>Emotions</h1>
+            <canvas id="graph4"></canvas>
+        </div>
+        <div>
+            <h1>Différentes moyennes d'âge</h1>
+            <canvas id="graph2" style="width:600Px;height:800px;"></canvas>
         </div>
     </div>
     <script>
@@ -68,6 +72,7 @@
         let averageAgeMan
         let averageAgeWomen
         let averageAge
+        let emotions
         data.then(value => {
             nbPpl = value['nb_ppl']         
             nbMan = value['nb_man']        
@@ -79,7 +84,13 @@
             agesRange = []
             agesRangeLabels = []
             setAgeRange(ages, agesRange, agesRangeLabels)
-            console.log(agesRangeLabels)
+            emotions = value['emotions']
+            happy_emotions = emotions.filter(x => x == 'happy')
+            sad_emotions = emotions.filter(x => x == 'sad')
+            neutral_emotions = emotions.filter(x => x == 'neutral')
+            surprise_emotions = emotions.filter(x => x == 'surprise')
+            anger_emotions = emotions.filter(x => x == 'anger')
+
             
             
             
@@ -190,6 +201,46 @@
             }; 
 
             let graph3 = new Chart(ctx3, config3)
+        
+            
+
+
+            //GRAP 4 --------------------------------------------------------------
+
+            ctx4 = document.getElementById("graph4").getContext('2d')   
+
+            console.log(agesRangeLabels)
+
+            let dataGraph4 = {
+                labels: ['Neutre', 'Content', 'Triste', 'Surpris', 'Enervé'],
+                datasets:[{
+                    data: [neutral_emotions.length, happy_emotions.length, sad_emotions.length, surprise_emotions.length, anger_emotions.length],
+                    backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)'
+                    ],
+                    hoverOffset : 10 
+                }]
+            }
+
+            let config4 = {                
+                type : 'doughnut',                
+                data: dataGraph4,              
+                options:{                
+                    responsive:true,              
+                    plugins:{                 
+                        title: {               
+                            display: true,              
+                            text: "Total : " + nbPpl + ""            
+                        }              
+                    }  
+                }                     
+            }; 
+
+            let graph4 = new Chart(ctx4, config4)
         
             })
 
