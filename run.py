@@ -15,14 +15,13 @@ def pictures():
 
 if __name__ == "__main__":
     
-
     nb_man = 0
     nb_women = 0
     nb_ppl = 0
     ages_man = []
     ages_women = []
     #Indiquer tous les fichiers json utilisés
-    name_files = ["picture1.json", "picture2.json", "picture3.json"]
+    name_files = [r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture1.json", r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture2.json", r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture3.json"]
 
     for i in range(len(name_files)):
         file = open(name_files[i])

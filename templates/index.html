@@ -5,11 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DataWeek</title>
+    <style>
+        div{
+            width:400Px;
+            height:400px;
+        }
+        #main{
+            padding-bottom: 15px;
+            padding-left: 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        h1{
+            font-family: sans-serif;
+            font-size:larger;
+        }
+    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-    <div style="width:400Px;height:400px;">
-        <canvas id="graph1"></canvas>
+    <div id="main">
+        <div style="padding-bottom: 80px;">
+            <h1>Proportion hommes/femmes</h1>
+            <canvas id="graph1"></canvas>
+        </div>
+        <div>
+            <h1>Différentes moyennes d'âge</h1>
+            <canvas id="graph2" style="width:600Px;height:800px;"></canvas>
+        </div>
+        <div>
+            <h1>Tranches d'âges</h1>
+            <canvas id="graph3"></canvas>
+        </div>
     </div>
     <script>
 
@@ -18,44 +45,153 @@
             const data = await response.json();
             return data;
         }
+
+        function setAgeRange(ages, agesRange, agesRangeLabels){
+        
+            let min = 0
+            let max = 10
+            for(let i = 0; i < 7; i++){
+                currentAges = ages.filter(x => x <= max && x > min)
+                if (currentAges.length > 0){
+                    agesRange.push(currentAges.length)
+                    agesRangeLabels.push("[" + min + "-" + max + "[")
+                }
+                min += 10
+                max += 10
+            }
+        }
+
         let data = getData();
         let nbPpl
         let nbMan
         let nbWomen
-        data.then(value => {nbPpl = value['nb_ppl']
-                            nbMan = value['nb_man']
-                            nbWomen = value['nb_women']
-                            console.log(nbMan)
-                            let ctx = document.getElementById("graph1").getContext('2d')
-                            let dataGraph1 = {
-                                    labels : ['Homme', 'Femme'],
-                                    datasets: [{
-                                        data : [nbMan, nbWomen],
-                                        backgroundColor:[
-                                            'rgb(54, 162, 235)',
-                                            'rgb(255, 99, 132)'
-                    
-                                        ],
-                                        hoverOffset : 10
-                                        }]}
+        let averageAgeMan
+        let averageAgeWomen
+        let averageAge
+        data.then(value => {
+            nbPpl = value['nb_ppl']         
+            nbMan = value['nb_man']        
+            nbWomen = value['nb_women']   
+            averageAgeMan = value['average_age_man']
+            averageAgeWomen = value['average_age_women']
+            averageAge = value['average_age']  
+            ages = value['ages']
+            agesRange = []
+            agesRangeLabels = []
+            setAgeRange(ages, agesRange, agesRangeLabels)
+            console.log(agesRangeLabels)
+            
+            
+            
 
-                            let config = {
-                                type : 'doughnut',
-                                data: dataGraph1,
-                                options:{
-                                    responsive:true,
-                                    plugins:{
-                                        title: {
-                                            display: true,
-                                            text: "Total : " + nbPpl + ""
-                                        }
-                                    }
-                                },
-                            };
+            //GRAP 1 --------------------------------------------------------------
+            let ctx1 = document.getElementById("graph1").getContext('2d')       
+            let dataGraph1 = {            
+                labels : ['Homme', 'Femme'],           
+                datasets: [{                 
+                    data : [nbMan, nbWomen],                 
+                    backgroundColor:[                       
+                    'rgb(54, 162, 235)',                        
+                    'rgb(255, 99, 132)'                        
+                ],                      
+                hoverOffset : 10                            
+                }]
+            }                
+            let config1 = {                
+                type : 'doughnut',                
+                data: dataGraph1,              
+                options:{                
+                    responsive:true,              
+                    plugins:{                 
+                        title: {               
+                            display: true,              
+                            text: "Total : " + nbPpl + ""            
+                        }              
+                    }  
+                }           
+                                 
+            };                  
+            let graph1 = new Chart(ctx1, config1)
 
-                            let graph1 = new Chart(ctx, config)
-                        
-        })
+            //GRAP 2 --------------------------------------------------------------
+
+            
+
+            ctx2 = document.getElementById("graph2").getContext('2d')   
+
+            let dataGraph2 = {
+                labels : ['Tous', 'Homme', 'Femme'],
+                datasets:[{
+                    label: 'Age moyen',
+                    data:[averageAge, averageAgeMan, averageAgeWomen],
+                    backgroundColor: ['rgb(54, 162, 235)','rgb(54, 162, 235)','rgb(54, 162, 235)'],
+                    borderWidth: 1
+                }]
+            }
+            
+            
+            let config2 = {
+                type: 'bar',
+                data: dataGraph2,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Moyennes des âges'
+                        }
+                    },
+                    y: {
+            min: 0,
+            max: averageAge + 10,
+            }
+                }
+            };
+            let graph2 = new Chart(ctx2, config2)
+
+
+            //GRAP 3 --------------------------------------------------------------
+
+            ctx3 = document.getElementById("graph3").getContext('2d')   
+
+            console.log(agesRangeLabels)
+
+            let dataGraph3 = {
+                labels: agesRangeLabels,
+                datasets:[{
+                    data: agesRange,
+                    backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                    ],
+                    hoverOffset : 10 
+                }]
+            }
+
+            let config3 = {                
+                type : 'doughnut',                
+                data: dataGraph3,              
+                options:{                
+                    responsive:true,              
+                    plugins:{                 
+                        title: {               
+                            display: true,              
+                            text: "Total : " + nbPpl + ""            
+                        }              
+                    }  
+                }                     
+            }; 
+
+            let graph3 = new Chart(ctx3, config3)
+        
+            })
 
 
 
