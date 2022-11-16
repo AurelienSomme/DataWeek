@@ -32,7 +32,7 @@ if __name__ == "__main__":
     emotions = []
     #Indiquer tous les fichiers json utilisés
     #Attention, peut demander le chemin absolu en fonction des machines [r"pathcomplet"]
-    name_files = [r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture1.json", r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture2.json", r"C:\Users\Utilisateur\Desktop\DW\DataWeek\picture3.json"]
+    name_files = ["picture1.json", "picture2.json", "picture3.json", 'picture4.json']
 
     for i in range(len(name_files)):
         file = open(name_files[i])

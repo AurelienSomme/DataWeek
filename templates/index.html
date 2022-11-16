@@ -7,14 +7,14 @@
     <title>DataWeek</title>
     <style>
         div{
-            width:400Px;
-            height:400px;
+            width:500Px;
+            height:500px;
         }
         #main{
             padding-bottom: 15px;
             padding-left: 15px;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
         }
         h1{
             font-family: sans-serif;
@@ -41,6 +41,10 @@
             <h1>Différentes moyennes d'âge</h1>
             <canvas id="graph2" style="width:600Px;height:800px;"></canvas>
         </div>
+        <div style="width:600Px;height:800px;">
+            <h1>Tranches d'ages</h1>
+            <canvas id="graph5"style="width:600Px;height:800px;" ></canvas>
+        </div>
     </div>
     <script>
 
@@ -53,15 +57,15 @@
         function setAgeRange(ages, agesRange, agesRangeLabels){
         
             let min = 0
-            let max = 10
-            for(let i = 0; i < 7; i++){
+            let max = 5
+            for(let i = 0; i < 14; i++){
                 currentAges = ages.filter(x => x <= max && x > min)
                 if (currentAges.length > 0){
                     agesRange.push(currentAges.length)
                     agesRangeLabels.push("[" + min + "-" + max + "[")
                 }
-                min += 10
-                max += 10
+                min += 5
+                max += 5
             }
         }
 
@@ -242,7 +246,55 @@
 
             let graph4 = new Chart(ctx4, config4)
         
-            })
+            
+
+            //GRAP 5 --------------------------------------------------------------
+
+            
+
+            ctx5 = document.getElementById("graph5").getContext('2d')   
+
+            let dataGraph5 = {
+                labels : agesRangeLabels,
+                datasets:[{
+                    label: "Tranches d'ages radar",
+                    data: agesRange,
+                    borderColor: ['rgb(255, 99, 132)'],
+                    backgroundColor:['rgba(255, 0, 0, 0.2)'],
+                    borderWidth: 1
+                }]
+            }
+            
+            
+            let config5 = {
+                type: 'radar',
+                data: dataGraph5,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: "Radar tranches d'ages"
+                        }
+                    },
+                    y: {
+            min: 0,
+            max: averageAge + 10,
+            },
+            scale: {
+                ticks: {
+                    max:40
+                }
+    }
+
+                }
+                
+            };
+
+            let graph5 = new Chart(ctx5, config5)
+        })
+            
+
 
 
 
