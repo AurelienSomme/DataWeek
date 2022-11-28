@@ -8,7 +8,7 @@
     <style>
         .slider {
             margin: 50px auto;
-            /* box-sizing: border-box; */
+            box-sizing: border-box;
             width: 80%;
         }
         .buttons {
@@ -30,20 +30,17 @@
             color: white;
             cursor: pointer;
         }
-        /* div{
-            width:500Px;
-            height:500px;
-        }
         #main{
+            margin: auto;
+            text-align: center;
             padding-bottom: 15px;
             padding-left: 15px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            width: 600px;
         }
         h1{
-            font-family: sans-serif;
+            font-family: saira;
             font-size:larger;
-        } */
+        } 
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
@@ -51,7 +48,8 @@
     <div id="main">
         <!-- Graphe slider -->
         <div class="slider">
-            
+            <h1>Proportion hommes/femmes</h1>
+            <canvas id="graph1" class="slider-graph"></canvas>
         </div>
 
         <!-- Prev / next button -->
@@ -63,7 +61,7 @@
         <!-- Graphes -->
         <div style="padding-bottom: 80px;padding-bottom: 200px;">
             <h1>Proportion hommes/femmes</h1>
-            <canvas id="graph1" class="slider-graph"></canvas>
+            <canvas id="graph1"></canvas>
         </div>
         <div style="padding-bottom: 200px;">
             <h1>Emotions</h1>
@@ -76,7 +74,7 @@
         <div>
             <h1>Tranches d'âges</h1>
             <canvas id="graph4" style="width:600Px;height:700px;"></canvas>
-        </div>
+        </div> 
     </div>
     <script>
         async function getData(){
@@ -176,7 +174,7 @@
 
             let config2 = {                
                 type : 'doughnut',                
-                data: dataGraph3,              
+                data: dataGraph2,              
                 options:{                
                     responsive:true,              
                     plugins:{                 
@@ -229,7 +227,7 @@
             //GRAP 4 --------------------------------------------------------------
             ctx4 = document.getElementById("graph4").getContext('2d')   
 
-            let dataGraph6 = {
+            let dataGraph4 = {
                 labels : agesRangeLabels,
                 datasets:[{
                     label: "Tranches d'ages",
@@ -273,13 +271,13 @@
         let i = 1; //current graph
 
         function prev(){
-            if (i <= 1) i = graphes.length;
+            if (i <= 1) i = graphes.length+1;
             i--;
             return setGraphe();
         }
 
         function next(){
-            if (i >= graphes.length-1) i = -1;
+            if (i >= graphes.length) i = 0;
             i++;
             return setGraphe();
         }
