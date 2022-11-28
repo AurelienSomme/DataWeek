@@ -46,35 +46,22 @@
 </head>
 <body>
     <div id="main">
-        <!-- Graphe slider -->
-        <div class="slider">
-            <h1>Proportion hommes/femmes</h1>
-            <canvas id="graph1" class="slider-graph"></canvas>
-        </div>
-
         <!-- Prev / next button -->
         <div class="buttons">
             <button class="btn" onclick="prev()">Prev</button>
+            <h1 id="title">Proportion hommes/femmes</h1>          
+                <!-- <h1>Emotions</h1> -->
+                <!-- <h1>Différentes moyennes d'âge</h1> -->
+                <!-- <h1>Tranches d'âges</h1> -->
             <button class="btn" onclick="next()">Next</button>
         </div>
-        
-        <!-- Graphes -->
-        <div style="padding-bottom: 80px;padding-bottom: 200px;">
-            <h1>Proportion hommes/femmes</h1>
-            <canvas id="graph1"></canvas>
+        <div class="slider">
+            <!-- Graphes -->
+                <canvas id="graph1" style="display:block"></canvas>
+                <canvas id="graph2" style="display:none"></canvas>
+                <canvas id="graph3" style="display:none"></canvas>
+                <canvas id="graph4" style="display:none"></canvas>
         </div>
-        <div style="padding-bottom: 200px;">
-            <h1>Emotions</h1>
-            <canvas id="graph2"></canvas>
-        </div>
-        <div style="padding-bottom: 200px;">
-            <h1>Différentes moyennes d'âge</h1>
-            <canvas id="graph3" style="width:600Px;height:700px;"></canvas>
-        </div>
-        <div>
-            <h1>Tranches d'âges</h1>
-            <canvas id="graph4" style="width:600Px;height:700px;"></canvas>
-        </div> 
     </div>
     <script>
         async function getData(){
@@ -266,24 +253,30 @@
         })
 
         // boutons précédents suivants
-        let slider_graph = document.querySelector('.slider-graph');
-        let graphes = [graph1, graph2, graph3, graph4]
+        //let slider_graph = document.querySelector('.slider-graph');
+        //let graphes = [graph1, graph2, graph3, graph4]
+        let titles = ["Proportion hommes/femmes", "Emotions", "Différentes moyennes d'âge", "Tranches d'âges"]
         let i = 1; //current graph
+        let iPrev = 4;
 
         function prev(){
-            if (i <= 1) i = graphes.length+1;
+            iPrev = i;
+            if (i <= 1) i = 5;
             i--;
             return setGraphe();
         }
 
         function next(){
-            if (i >= graphes.length) i = 0;
+            iPrev = i;
+            if (i >= 4) i = 0;
             i++;
             return setGraphe();
         }
 
         function setGraphe(){
-            return slider_graph.setAttribute('id', 'graph'+i)
+            document.getElementById("title").innerHTML = titles[i-1];
+            document.getElementById("graph"+i).style.display = "block";
+            document.getElementById("graph"+iPrev).style.display = "none";
         }
     </script>
 </body>
