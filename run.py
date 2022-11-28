@@ -32,7 +32,7 @@ if __name__ == "__main__":
     emotions = []
     #Indiquer tous les fichiers json utilisés
     #Attention, peut demander le chemin absolu en fonction des machines [r"pathcomplet"]
-    name_files = ["picture1.json", "picture2.json", "picture3.json", 'picture4.json']
+    name_files = ["picture1.json", "picture2.json", "picture3.json"]
 
     for i in range(len(name_files)):
         file = open(name_files[i])
@@ -50,8 +50,8 @@ if __name__ == "__main__":
 
         nb_ppl += data['response']['face_count']
 
-    average_age_man = sum(ages_man) / nb_man
-    average_age_women = sum(ages_women) / nb_women
+    average_age_man = sum(ages_man) / nb_man if nb_man != 0 else 0
+    average_age_women = sum(ages_women) / nb_women if nb_women != 0 else 0
     average_age = (average_age_man + average_age_women) / 2
     ages = ages_women + ages_man
 

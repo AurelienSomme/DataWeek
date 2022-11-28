@@ -37,14 +37,6 @@
             <h1>Différentes moyennes d'âge</h1>
             <canvas id="graph2" style="width:600Px;height:700px;"></canvas>
         </div>
-        <div style="width:600Px;height:800px;">
-            <h1>Tranches d'âges</h1>
-            <canvas id="graph5"></canvas>
-        </div>
-        <div>
-            <h1>Tranches d'âges</h1>
-            <canvas id="graph3"></canvas>
-        </div>
         <div>
             <h1>Tranches d'âges</h1>
             <canvas id="graph6" style="width:600Px;height:700px;"></canvas>
@@ -172,43 +164,7 @@
             let graph2 = new Chart(ctx2, config2)
 
 
-            //GRAP 3 --------------------------------------------------------------
-
-            ctx3 = document.getElementById("graph3").getContext('2d')   
-
-            console.log(agesRangeLabels)
-
-            let dataGraph3 = {
-                labels: agesRangeLabels,
-                datasets:[{
-                    data: agesRange,
-                    backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(255, 159, 64)',
-                            'rgb(255, 205, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(54, 162, 235)',
-                            'rgb(153, 102, 255)',
-                    ],
-                    hoverOffset : 10 
-                }]
-            }
-
-            let config3 = {                
-                type : 'doughnut',                
-                data: dataGraph3,              
-                options:{                
-                    responsive:true,              
-                    plugins:{                 
-                        title: {               
-                            display: true,              
-                            text: "Total : " + nbPpl + ""            
-                        }              
-                    }  
-                }                     
-            }; 
-
-            let graph3 = new Chart(ctx3, config3)
+        
         
             
 
@@ -252,49 +208,7 @@
         
             
 
-            //GRAP 5 --------------------------------------------------------------
-
-            
-
-            ctx5 = document.getElementById("graph5").getContext('2d')   
-
-            let dataGraph5 = {
-                labels : agesRangeLabels,
-                datasets:[{
-                    label: "Tranches d'ages radar",
-                    data: agesRange,
-                    borderColor: ['rgb(255, 99, 132)'],
-                    backgroundColor:['rgba(255, 0, 0, 0.2)'],
-                    borderWidth: 1
-                }]
-            }
-            
-            
-            let config5 = {
-                type: 'radar',
-                data: dataGraph5,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        title: {
-                            display: true,
-                        }
-                    },
-                    y: {
-            min: 0,
-            max: averageAge + 10,
-            },
-            scale: {
-                ticks: {
-                    max:40
-                }
-    }
-
-                }
-                
-            };
-
-            let graph5 = new Chart(ctx5, config5)
+        
 
 
             //GRAP 6 --------------------------------------------------------------

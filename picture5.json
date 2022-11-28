@@ -1,0 +1,31 @@
+{
+    "execution_time": "1164.930",
+    "response": {
+    "faces": [
+    {
+    "face_rect": {
+    "left_top": {
+    "x": "510",
+    "y": "28",
+    "id": 1
+    },
+    "right_bottom": {
+    "x": "696",
+    "y": "263",
+    "id": 2
+    }
+    },
+    "head_pose": {
+    "yaw": "25.7659350459",
+    "pitch": "3.50599448114",
+    "roll": "11.3095238066"
+    },
+    "emotions": "neutral",
+    "gender": "female",
+    "age": "19",
+    "race": "white"
+    }
+    ],
+    "face_count": 1
+    }
+    }
