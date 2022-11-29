@@ -1,54 +1,31 @@
 {
-    "execution_time": "3050.766",
-    "response": {
-    "faces": [
-    {
-    "face_rect": {
-    "left_top": {
-    "x": "998",
-    "y": "1506",
-    "id": 1
-    },
-    "right_bottom": {
-    "x": "1105",
-    "y": "1628",
-    "id": 2
-    }
-    },
-    "head_pose": {
-    "yaw": "3.667938874",
-    "pitch": "3.82240202967",
-    "roll": "-5.34931655122"
-    },
-    "emotions": "neutral",
-    "gender": "male",
-    "age": "25",
-    "race": "indian"
-    },
-    {
-    "face_rect": {
-    "left_top": {
-    "x": "1046",
-    "y": "2340",
-    "id": 1
-    },
-    "right_bottom": {
-    "x": "1250",
-    "y": "2580",
-    "id": 2
-    }
-    },
-    "head_pose": {
-    "yaw": "25.8600790418",
-    "pitch": "-38.2037763224",
-    "roll": "14.7666352197"
-    },
-    "emotions": "neutral",
-    "gender": "male",
-    "age": "31",
-    "race": "white"
-    }
-    ],
-    "face_count": 2
-    }
-    }
+"execution_time": "1452.748",
+"response": {
+"faces": [
+{
+"face_rect": {
+"left_top": {
+"x": "995",
+"y": "497",
+"id": 1
+},
+"right_bottom": {
+"x": "1102",
+"y": "617",
+"id": 2
+}
+},
+"head_pose": {
+"yaw": "-0.633025213361",
+"pitch": "5.31196469487",
+"roll": "-5.08675497214"
+},
+"emotions": "neutral",
+"gender": "male",
+"age": "25",
+"race": "indian"
+}
+],
+"face_count": 1
+}
+}
