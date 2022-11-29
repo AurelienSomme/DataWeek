@@ -6,44 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DataWeek</title>
     <style>
-        div{
-            width:500Px;
-            height:500px;
+        .slider {
+            margin: 50px auto;
+            box-sizing: border-box;
+            width: 80%;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn {
+            width: 100px;
+            height: 50px;
+            font-size: 1em;
+            border: none;
+            border-radius: 10px;
+            background-color: lightblue;
+        }
+
+        .btn:hover {
+            background-color: #7b88f7;
+            color: white;
+            cursor: pointer;
         }
         #main{
+            margin: auto;
+            text-align: center;
             padding-bottom: 15px;
             padding-left: 15px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            width: 680px;
         }
         h1{
-            font-family: sans-serif;
+            font-family: saira;
             font-size:larger;
-        }
+        } 
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <div id="main">
-        <div style="padding-bottom: 80px;padding-bottom: 200px;">
-            <h1>Proportion hommes/femmes</h1>
-            <canvas id="graph1"></canvas>
+        <!-- Prev / next button -->
+        <div class="buttons">
+            <button class="btn" onclick="prev()">Prev</button>
+            <h1 id="title">Proportion hommes/femmes</h1>          
+            <button class="btn" onclick="next()">Next</button>
         </div>
-        <div style="padding-bottom: 200px;">
-            <h1>Emotions</h1>
-            <canvas id="graph4"></canvas>
-        </div>
-        <div style="padding-bottom: 200px;">
-            <h1>Différentes moyennes d'âge</h1>
-            <canvas id="graph2" style="width:600Px;height:700px;"></canvas>
-        </div>
-        <div>
-            <h1>Tranches d'âges</h1>
-            <canvas id="graph6" style="width:600Px;height:700px;"></canvas>
+        <div class="slider">
+            <!-- Graphes -->
+                <canvas id="graph1" style="display:block"></canvas>
+                <canvas id="graph2" style="display:none"></canvas>
+                <canvas id="graph3" style="display:none; height:250px"></canvas>
+                <canvas id="graph4" style="display:none; height:250px"></canvas>
         </div>
     </div>
     <script>
-
         async function getData(){
             const response = await fetch("/pictures");
             const data = await response.json();
@@ -89,11 +106,7 @@
             sad_emotions = emotions.filter(x => x == 'sad')
             neutral_emotions = emotions.filter(x => x == 'neutral')
             surprise_emotions = emotions.filter(x => x == 'surprise')
-            anger_emotions = emotions.filter(x => x == 'anger')
-
-            
-            
-            
+            anger_emotions = emotions.filter(x => x == 'anger')     
 
             //GRAP 1 --------------------------------------------------------------
             let ctx1 = document.getElementById("graph1").getContext('2d')       
@@ -125,12 +138,44 @@
             let graph1 = new Chart(ctx1, config1)
 
             //GRAP 2 --------------------------------------------------------------
-
-            
-
             ctx2 = document.getElementById("graph2").getContext('2d')   
+            console.log(agesRangeLabels)
 
             let dataGraph2 = {
+                labels: ['Neutre', 'Content', 'Triste', 'Surpris', 'Enervé'],
+                datasets:[{
+                    data: [neutral_emotions.length, happy_emotions.length, sad_emotions.length, surprise_emotions.length, anger_emotions.length],
+                    backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)'
+                    ],
+                    hoverOffset : 10 
+                }]
+            }
+
+            let config2 = {                
+                type : 'doughnut',                
+                data: dataGraph2,              
+                options:{                
+                    responsive:true,              
+                    plugins:{                 
+                        title: {               
+                            display: true,              
+                            text: "Total : " + nbPpl + ""            
+                        }              
+                    }  
+                }                     
+            }; 
+
+            let graph2 = new Chart(ctx2, config2)
+
+            //GRAP 3 --------------------------------------------------------------
+            ctx3 = document.getElementById("graph3").getContext('2d')   
+
+            let dataGraph3 = {
                 labels : ['Tous', 'Homme', 'Femme'],
                 datasets:[{
                     label: 'Age moyen',
@@ -141,9 +186,9 @@
             }
             
             
-            let config2 = {
+            let config3 = {
                 type: 'bar',
-                data: dataGraph2,
+                data: dataGraph3,
                 options: {
                     responsive: true,
                     plugins: {
@@ -161,63 +206,12 @@
             }
                 }
             };
-            let graph2 = new Chart(ctx2, config2)
-
-
-        
-        
-            
-
-
+            let graph3 = new Chart(ctx3, config3)
+ 
             //GRAP 4 --------------------------------------------------------------
-
             ctx4 = document.getElementById("graph4").getContext('2d')   
 
-            console.log(agesRangeLabels)
-
             let dataGraph4 = {
-                labels: ['Neutre', 'Content', 'Triste', 'Surpris', 'Enervé'],
-                datasets:[{
-                    data: [neutral_emotions.length, happy_emotions.length, sad_emotions.length, surprise_emotions.length, anger_emotions.length],
-                    backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(255, 159, 64)',
-                            'rgb(255, 205, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(54, 162, 235)'
-                    ],
-                    hoverOffset : 10 
-                }]
-            }
-
-            let config4 = {                
-                type : 'doughnut',                
-                data: dataGraph4,              
-                options:{                
-                    responsive:true,              
-                    plugins:{                 
-                        title: {               
-                            display: true,              
-                            text: "Total : " + nbPpl + ""            
-                        }              
-                    }  
-                }                     
-            }; 
-
-            let graph4 = new Chart(ctx4, config4)
-        
-            
-
-        
-
-
-            //GRAP 6 --------------------------------------------------------------
-
-            
-
-            ctx6 = document.getElementById("graph6").getContext('2d')   
-
-            let dataGraph6 = {
                 labels : agesRangeLabels,
                 datasets:[{
                     label: "Tranches d'ages",
@@ -228,9 +222,9 @@
             }
             
             
-            let config6 = {
+            let config4 = {
                 type: 'bar',
-                data: dataGraph6,
+                data: dataGraph4,
                 options: {
                     responsive: true,
                     plugins: {
@@ -252,15 +246,33 @@
                 
             };
 
-            let graph6 = new Chart(ctx6, config6)
+            let graph4 = new Chart(ctx4, config4)
         })
-            
 
+        // boutons précédents suivants
+        let titles = ["Proportion hommes/femmes", "Emotions", "Différentes moyennes d'âge", "Tranches d'âges"]
+        let i = 1; //current graph
+        let iPrev = 4;
 
+        function prev(){
+            iPrev = i;
+            if (i <= 1) i = 5;
+            i--;
+            return setGraphe();
+        }
 
+        function next(){
+            iPrev = i;
+            if (i >= 4) i = 0;
+            i++;
+            return setGraphe();
+        }
 
-        
+        function setGraphe(){
+            document.getElementById("title").innerHTML = titles[i-1];
+            document.getElementById("graph"+i).style.display = "block";
+            document.getElementById("graph"+iPrev).style.display = "none";
+        }
     </script>
 </body>
-
 </html>
